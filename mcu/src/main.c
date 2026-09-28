@@ -12,9 +12,10 @@ Purpose : Generic application start
 
 #include <stdio.h>
 #include <stdlib.h>
-// Include the device header
-#include <stm32l432xx.h>
-
+// Includes for libraries
+#include "STM32L432KC_RCC.h"
+#include "STM32L432KC_GPIO.h"
+#include "STM32L432KC_FLASH.h"
 /*********************************************************************
 *
 *       main()

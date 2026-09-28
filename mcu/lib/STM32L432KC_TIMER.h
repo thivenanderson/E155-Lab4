@@ -13,7 +13,8 @@
 #define __IO volatile
 
 // Base addresses for GPIO ports
-#define TIMER_BASE (0x40001000UL) // base address of TIM6
+#define TIM6_BASE (0x40001000UL) // base address of TIM6
+#define TIM7_BASE (0x40001400UL) // base address of TIM6
 
 ///////////////////////////////////////////////////////////////////////////////
 // Bitfield struct for GPIO
@@ -26,18 +27,16 @@ typedef struct {
   __IO uint32_t DIER;       /*         Address offset: 0x0C */
   __IO uint32_t SR;       /*         Address offset: 0x10 */
   __IO uint32_t EGR;    /*  Address offset: 0x14 */
-  uint32_t RESERVED;    /*, Address offset: 0x18 */
-  uint32_t RESERVED;    // Address offset: 0x1C
-  uint32_t RESERVED;    // Address offset: GPIO Offset 0x20
+  uint32_t RESERVED0;    /*, Address offset: 0x18 */
+  uint32_t RESERVED1;    // Address offset: 0x1C
+  uint32_t RESERVED2;    // Address offset: GPIO Offset 0x20
   __IO uint32_t CNT;    // Address offset: 0x24
   __IO uint32_t PSC;    // Address offset: 0x28
-  __IO uint32_t APR;    // Address offset: 0x2C
-} TIMER_TypeDef;
+  __IO uint32_t ARR;    // Address offset: 0x2C
+} TIM_TypeDef;
 
-#define TIMER ((TIMER_TypeDef *) TIMER_BASE)
-
-
-
+#define TIM6 ((TIM_TypeDef *) TIM6_BASE)
+#define TIM7 ((TIM_TypeDef *) TIM7_BASE)
 
 
 
