@@ -3,7 +3,7 @@
 
 #ifndef STM32L4_TIMER_H
 #define STM32L4_TIMER_H
-
+#define SPEAKER_PIN  7
 #include <stdint.h>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -42,6 +42,6 @@ void initTIM6(void);
 void initTIM7(void);
 void setFrequency(int frequency);
 void setDuration(int duration_ms);
-
+void playNote(int frequency, int duration_ms);
 
 #endif

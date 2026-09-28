@@ -2,9 +2,6 @@
 #include "STM32L432KC_RCC.h"
 #include "STM32L432KC_GPIO.h"
 
-#define GPIO_HIGH 1
-#define GPIO_LOW 0
-#define SPEAKER_PIN  7
 
 void initTIM6(void) {
      // enable TIM6 clock in RCC
