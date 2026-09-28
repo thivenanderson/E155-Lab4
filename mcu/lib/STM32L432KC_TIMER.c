@@ -1,5 +1,10 @@
 #include "STM32L432KC_TIMER.h"
 #include "STM32L432KC_RCC.h"
+#include "STM32L432KC_GPIO.h"
+
+#define GPIO_HIGH 1
+#define GPIO_LOW 0
+#define SPEAKER_PIN  7
 
 void initTIM6(void) {
      // enable TIM6 clock in RCC
@@ -34,9 +39,57 @@ void setFrequency(int frequency) {
 
 void setDuration(int duration_ms){
      //Set ARR based on note duration
-     TIM7->ARR = (duration_ms*10) - 1;\
+     TIM7->ARR = (duration_ms*10) - 1;
      //Start counter from 0 for each note
      TIM7->CNT = 0;
      //Clear update flags
      TIM7->SR &= ~(1 << 0);
+}
+
+void playNote(int frequency, int duration_ms){
+     //Set duration/ARR for TIM7
+     setDuration(duration_ms);
+     //For rest force output low and ignore frequency
+     if (frequency == 0){
+        //Turn off pitch timer aka TIM6
+        TIM6->CR1 &= ~(1<<0);
+        //Turn speaker off
+        digitalWrite(SPEAKER_PIN, GPIO_LOW);
+        //Start TIM7
+        TIM7->CR1 |= (1<<0);
+        //Wait for TIM7 to finish
+        while(!(TIM7->SR & (1 << 0)));
+        //Stop timer once finished
+        TIM7->CR1 &= ~(1<<0);
+        //Clear update flag
+        TIM7->SR &= ~(1 << 0);
+
+     }
+     //For not set frequency and toggle LED pin everytime TIM6 finishes
+     else{
+        //Set frequency
+        setFrequency(frequency);
+        //Start TIM6
+        TIM6->CR1 |= (1<<0);
+        //Start TIM7
+        TIM7->CR1 |= (1<<0);
+        //Wait for TIM7 to finish
+        while(!(TIM7->SR & (1 << 0))){
+            //wait for TIM6 to finsih
+            if (TIM6->SR & (1 << 0)){
+                //toggle output pin
+                togglePin(SPEAKER_PIN);
+                //Clear update flag
+                TIM6->SR &= ~(1 << 0);
+            }
+        }
+        //Turn speaker off when note duration finished
+        digitalWrite(SPEAKER_PIN, GPIO_LOW);
+        //Stop timers once finished
+        TIM6->CR1 &= ~(1<<0);
+        TIM7->CR1 &= ~(1<<0);
+        //Clear update flags
+        TIM6->SR &= ~(1 << 0);
+        TIM7->SR &= ~(1 << 0);
+     }
 }

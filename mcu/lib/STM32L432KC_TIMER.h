@@ -12,12 +12,12 @@
 
 #define __IO volatile
 
-// Base addresses for GPIO ports
+// Base addresses for TIMx ports
 #define TIM6_BASE (0x40001000UL) // base address of TIM6
 #define TIM7_BASE (0x40001400UL) // base address of TIM6
 
 ///////////////////////////////////////////////////////////////////////////////
-// Bitfield struct for GPIO
+// Bitfield struct for TIMx
 ///////////////////////////////////////////////////////////////////////////////
 
 typedef struct {
@@ -38,10 +38,10 @@ typedef struct {
 #define TIM6 ((TIM_TypeDef *) TIM6_BASE)
 #define TIM7 ((TIM_TypeDef *) TIM7_BASE)
 
-
-
-
-
+void initTIM6(void);
+void initTIM7(void);
+void setFrequency(int frequency);
+void setDuration(int duration_ms);
 
 
 #endif
