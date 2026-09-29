@@ -226,13 +226,13 @@ void playNote(int frequency, int duration_ms) {
     else {
         setTIMARR(TIM6, frequencyToARR(frequency)); // Set note pitch
         resetTIM(TIM6); // Start pitch counter from 0
-        clearTIMFlag(TIM6); // Clear old pitch flag
+        clearTIMFlag(TIM6); // Clear old pitch flag to be safe
         startTIM(TIM6); // Start pitch timer
         startTIM(TIM7); // Start duration timer
 
         while(!timerDone(TIM7)) {
             if (timerDone(TIM6)) {
-                togglePin(SPEAKER_PIN); // Toggle speaker output every half period
+                togglePin(SPEAKER_PIN); // Toggle speaker output every half period of note
                 clearTIMFlag(TIM6); // Clear pitch flag
             }
         }
