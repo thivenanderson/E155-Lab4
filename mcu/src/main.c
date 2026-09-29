@@ -117,23 +117,19 @@ const int notes[][2] = {
 {440,	500},
 {  0,	0}};
 
-//Set number of notes by finding rows of notes array
-int numNotes = (sizeof(notes) / sizeof(notes[0]))-1;
+
+int numNotes = sizeof(notes) / sizeof(notes[0]); //Set number of notes by finding rows of notes array
 
 int main(void) {
-	// Configure flash to add waitstates to avoid timing errors
-    configureFlash();
+    configureFlash(); // Configure flash to add waitstates to avoid timing errors
+   
+    configureClock();  // Setup the PLL and switch clock source to the PLL
 
-    // Setup the PLL and switch clock source to the PLL
-    configureClock();
+    RCC->AHB2ENR |= (1 << 1); // Turn on clock to GPIOB
 
-    // Turn on clock to GPIOB
-    RCC->AHB2ENR |= (1 << 1);
-
-    // Set LED_PIN as output
-    pinMode(SPEAKER_PIN, GPIO_OUTPUT);
-    //Start out low
-    digitalWrite(SPEAKER_PIN, GPIO_LOW);
+    pinMode(SPEAKER_PIN, GPIO_OUTPUT); // Set LED_PIN as output
+   
+    digitalWrite(SPEAKER_PIN, GPIO_LOW);  //Start out low
     //Initialize timers
     initTIM6();
     initTIM7();
