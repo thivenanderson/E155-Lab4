@@ -8,7 +8,7 @@ void initTIM6(void) {
      RCC->APB1ENR1 |= (1 << 4);
      // set PSC to change 80Mhz clock to 1Mhz
      TIM6->PSC = 79; 
-     // Load prescaler value
+     // Force update event to load prescaler value
      TIM6->EGR |= (1 << 0);
      // Clear update flag caused by EGR
      TIM6->SR &= ~(1 << 0);
@@ -19,7 +19,7 @@ void initTIM7(void) {
      RCC->APB1ENR1 |= (1 << 5);
      // set PSC to change clock to 0.1 ms/10kHz ticks
      TIM7->PSC = 7999; 
-       // Load prescaler value
+       // Fporce update event to load prescaler value
      TIM7->EGR |= (1 << 0);
      // Clear update flag caused by EGR
      TIM7->SR &= ~(1 << 0);
