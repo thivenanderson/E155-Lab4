@@ -133,13 +133,8 @@ int main(void) {
     //Initialize timers
     initTIM6();
     initTIM7();
-    //Loop through song notes
-    while(1){
-    playNote(440,2000);
-    //     for(int i=0; i< numNotes; i++){
-    //         playNote(notes[i][0], notes[i][1]);
-    //     }
-    // }
-    }
-	return 0;
+   
+    //tests
+    playNote(1000,2000); 
+    return 0;
 }

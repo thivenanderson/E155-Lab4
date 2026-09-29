@@ -20,10 +20,11 @@ void initTIM7(void) {
      // Clear update flag caused by EGR
      TIM7->SR &= ~(1 << 0);
 }
-
+//Observed actual internal counter after prescale based on oscilloscope
+#define TIM6_COUNT_HZ 991000
 void setFrequency(int frequency) {
      //Set ARR based on frequency of note
-     TIM6->ARR = (1000000/(2*frequency)) - 1;
+     TIM6->ARR = (TIM6_COUNT_HZ/(2*frequency)) - 1;
      //Start counter from 0 for each note
      TIM6->CNT = 0;
      //Clear update flags
