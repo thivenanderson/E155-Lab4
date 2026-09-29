@@ -1,14 +1,18 @@
-// lab4_starter.c
-// Fur Elise, E155 Lab 4
-// Updated Fall 2024
+//Name: Thiven Anderson
+//Email: thanderson@g.hmc.edu
+//Date: 9/29/2026
+//Description: Main program for lab 4 of E155 that uses timers to play note arrays through a speaker
 #include "STM32L432KC_RCC.h"
 #include "STM32L432KC_GPIO.h"
 #include "STM32L432KC_FLASH.h"
 #include "STM32L432KC_TIMER.h"
 
 #define SPEAKER_PIN 7 // Speaker output on PB7
-#define TIM6_COUNT_HZ 991000 // Observed TIM6 counter frequency after prescale
-#define TIM7_TICKS_PER_MS 10 // TIM7 ticks per millisecond
+#define TIMER_CLOCK_HZ 79280000 // Observed timer clock based on oscilloscope measurement
+#define TIM6_PRESCALER 79 // Prescale timer clock to about 991 kHz
+#define TIM7_PRESCALER 7999 // Prescale timer clock to about 9.91 kHz
+#define TIM6_COUNT_HZ (TIMER_CLOCK_HZ/(TIM6_PRESCALER+1)) // TIM6 counter frequency
+#define TIM7_COUNT_HZ (TIMER_CLOCK_HZ/(TIM7_PRESCALER+1)) // TIM7 counter frequency
 
 //FUR ELISE
 // Pitch in Hz, duration in ms
@@ -205,7 +209,7 @@ int frequencyToARR(int frequency) {
 }
 
 int durationToARR(int duration_ms) {
-    return (duration_ms*TIM7_TICKS_PER_MS) - 1; // Convert duration to TIM7 ARR value
+    return ((duration_ms*TIM7_COUNT_HZ)/1000) - 1; // Convert duration to TIM7 ARR value
 }
 
 void playNote(int frequency, int duration_ms) {
@@ -253,8 +257,8 @@ int main(void) {
     digitalWrite(SPEAKER_PIN, GPIO_LOW); // Start speaker output low
 
     // Initialize timers
-    initTIM(TIM6, 79);
-    initTIM(TIM7, 7999);
+    initTIM(TIM6, TIM6_PRESCALER);
+    initTIM(TIM7, TIM7_PRESCALER);
 
     // Play song
     for(int i=0; i<numNotes; i++) {
