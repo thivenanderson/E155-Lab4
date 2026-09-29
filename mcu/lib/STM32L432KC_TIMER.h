@@ -38,8 +38,7 @@ typedef struct {
 #define TIM6 ((TIMx_TypeDef *) TIM6_BASE)
 #define TIM7 ((TIMx_TypeDef *) TIM7_BASE)
 
-void initTIM6(void);
-void initTIM7(void);
+void initTIM(TIM_TypeDef *TIMx, uint16_t prescaler);
 void setFrequency(int frequency);
 void setDuration(int duration_ms);
 void playNote(int frequency, int duration_ms);
