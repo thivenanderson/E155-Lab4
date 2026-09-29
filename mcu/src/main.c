@@ -118,7 +118,7 @@ const int notes[][2] = {
 {  0,	0}};
 
 
-int numNotes = sizeof(notes) / sizeof(notes[0]); //Set number of notes by finding rows of notes array
+int numNotes = (sizeof(notes) / sizeof(notes[0]))-1; //Set number of notes by finding rows of notes array
 
 int main(void) {
     configureFlash(); // Configure flash to add waitstates to avoid timing errors
@@ -133,7 +133,10 @@ int main(void) {
     //Initialize timers
     initTIM6();
     initTIM7();
-   
+    //Play Fur Elise
+    for(int i=0; i< numNotes; i++){
+      playNote(notes[i][0], notes[i][1]);
+    }
     //tests
     playNote(1000,2000); 
     return 0;
