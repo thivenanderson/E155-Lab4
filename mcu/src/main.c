@@ -118,7 +118,7 @@ const int notes[][2] = {
 {  0,	0}};
 
 //Set number of notes by finding rows of notes array
-int numNotes = sizeof(notes) / sizeof(notes[0]);
+int numNotes = (sizeof(notes) / sizeof(notes[0]))-1;
 
 int main(void) {
 	// Configure flash to add waitstates to avoid timing errors
